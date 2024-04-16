@@ -1,0 +1,27 @@
+#%RAML 1.0
+title: Test Application
+
+/test:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              "Test Application successful"
+  post:
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              "post successful"
+/health:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              "running"
+    

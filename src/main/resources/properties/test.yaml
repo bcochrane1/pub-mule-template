@@ -1,0 +1,11 @@
+tls:
+  truststore:
+    fileName: "nonprod-truststore.ts"
+    password: "![Xv1U+ItRpGmtee75UPjTYMl+TcPdBTULxrDvNOL3QII=]"
+    type: "JKS"
+  keystore:
+    type: "JKS"
+    fileName: "nonprod-keystore.jks"
+    alias: "mule"
+    keyPassword: "![Xv1U+ItRpGmtee75UPjTYMl+TcPdBTULxrDvNOL3QII=]"
+    password: "![Xv1U+ItRpGmtee75UPjTYMl+TcPdBTULxrDvNOL3QII=]"

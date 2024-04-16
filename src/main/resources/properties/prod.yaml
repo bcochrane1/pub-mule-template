@@ -1,0 +1,11 @@
+tls:
+  truststore:
+    fileName: "truststore.ts"
+    password: ""
+    type: "JKS"
+  keystore:
+    type: "JKS"
+    fileName: "keystore.jks"
+    alias: "mule"
+    keyPassword: ""
+    password: ""

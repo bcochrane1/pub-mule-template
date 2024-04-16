@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+		<flow name="salesforce-integration-statusFlow" doc:id="f032499a-ac10-4d4d-b133-be769c7cddd4" >
+		<ee:transform doc:name="Transform Message" doc:id="bb8bc15a-fc2a-4000-abf5-b3f5ee00920c">
+			<ee:message>
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+
+var runData = vars.runData
+
+var statusMap = (status) -> {
+	"InProgress": "In Progress",
+	"Success": "Success",
+	"Error": "Error",
+	"Failure": "Failure"
+}
+---
+[{
+	"Application_Name__c":Mule::p('app.name'),
+	"Channel_ID__c": runData.channelId,
+	"Correlation_ID__c": correlationId,
+	"Data_Source__c": runData.dataSource,
+	"Data_Target__c": runData.dataTarget,
+	"End_Time__c": now() >> "UTC",
+	"Message__c": runData.message,
+	"Platform__c": Mule::p('app.platform'),
+	"Process_Name__c": Mule::p('app.process.enrollments'),
+	"Related_Record_ID__c": runData.relatedRecordId,
+	"Salesforce_Record_ID__c": runData.salesforceRecordId,
+	"Start_Time__c": runData.startTime,
+	"Status__c": runData.status,
+	"Type__c": runData."type",
+	"Replay_ID__c": if(isEmpty(runData.replayId)) null else runData.replayId as String
+}]
+]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="isDebug" ><![CDATA[%dw 2.0
+output application/json
+---
+vars.runData.isDebug default false]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<choice doc:name="Choice" doc:id="67fb2d29-bc25-4ad3-b415-732814a66723" >
+			<when expression="#[vars.isDebug]">
+				<logger level="INFO" doc:name="payload" doc:id="426b53e8-7ee6-4a88-ae94-6eee8b03b9db" message="#[payload]" />
+				<ee:transform doc:name="Transform Message" doc:id="6afb4f27-45d7-4770-a0d7-d32e99f6963a" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="create-process-report-record-in-salesforceFlow" doc:id="ed83cbc6-5487-4220-8e47-a9a81499f6c0" name="create-process-report-record-in-salesforceFlow"/>
+			</otherwise>
+		</choice>
+	</flow>
+	<flow name="create-process-report-record-in-salesforceFlow" doc:id="d1e5ae96-30a7-4e7b-ad27-7dc16b52c984" >
+		<http:request method="GET" doc:name="Request" doc:id="80a334c1-009a-455f-81bb-dde64f09c433" config-ref="Salesforce_SAPI_HTTP_Request_configuration"/>
+		<ee:transform doc:name="Transform Message" doc:id="2392658c-2311-47a9-8d4f-8dfb13190260" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

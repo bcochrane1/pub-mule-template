@@ -1,0 +1,6 @@
+app:
+  debug: "false"
+anypoint:
+  platform:
+    #update list based on the implementation type
+    visualizer: "Experience, Process, System"

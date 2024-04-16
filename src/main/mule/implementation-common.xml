@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="initialize-process-dataFlow" doc:id="18ff552b-6758-4e3e-b8ee-c3d7549c14c1" >
+		<set-variable value="#[%dw 2.5&#10;output application/json&#10;---&#10;payload default null]" doc:name="sourceEvent" doc:id="28ddc797-e0e0-4fa4-932e-557deea4899e" variableName="sourceEvent" />
+		<set-variable value="#[if(Mule::p('app.debug') == &quot;true&quot;) true else false]" doc:name="isDebug" doc:id="d83f2281-b2d1-4a1f-aaa0-3895bd950908" variableName="isDebug" />
+		<ee:transform doc:name="runData" doc:id="244914ab-fa53-446c-9b80-b0b127fdf245">
+			<ee:message>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="runData" ><![CDATA[%dw 2.0
+output application/java
+var event = if(isEmpty(vars.sourceEvent)) {"channel":""} else vars.sourceEvent
+
+var setObject = if(!isEmpty(event.channel)) {
+    "channelId": event.channel,
+	"dataSource": "Salesforce",
+	"dataTarget": "",
+	"relatedRecordId": null,
+	"salesforceRecordId": event.data.payload.ChangeEventHeader.recordIds[0],
+	"type": "CDC Event",
+	"replayId": event.data.event.replayId
+} else {
+    "channelId": null,
+	"dataSource": "",
+	"dataTarget": "",
+	"relatedRecordId": null,
+	"salesforceRecordId": null,
+	"type": "Schedule",
+	"replayID": null
+}
+
+---
+{
+    "channelId": event.channel,
+	"dataSource": "Salesforce",
+	"dataTarget": "HMIS",
+	"relatedRecordId": null,
+	"salesforceRecordId": event.data.payload.ChangeEventHeader.recordIds[0],
+	"type": "CDC Event",
+	"replayId": event.data.event.replayId,
+	"startTime": now() >> "UTC",
+	"endTime": null,
+	"message": null,
+	"status": "In Progress",
+	"isDebug" : vars.isDebug default false
+} //++ setObject
+
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="19cac6b4-4de0-4daa-a7c4-56c87157e68a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+vars.runData]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+
+</mule>
