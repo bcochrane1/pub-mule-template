@@ -64,7 +64,7 @@ payload]]></ee:set-payload>
 		</choice>
 	</flow>
 	<flow name="create-process-report-record-in-salesforceFlow" doc:id="d1e5ae96-30a7-4e7b-ad27-7dc16b52c984" >
-		<http:request method="GET" doc:name="Request" doc:id="80a334c1-009a-455f-81bb-dde64f09c433" config-ref="Salesforce_SAPI_HTTP_Request_configuration"/>
+		<http:request method="GET" doc:name="Request" doc:id="80a334c1-009a-455f-81bb-dde64f09c433" config-ref="Salesforce_SAPI_HTTP_Request_configuration" path="${secure::sapi.salesforce.path.status}"/>
 		<ee:transform doc:name="Transform Message" doc:id="2392658c-2311-47a9-8d4f-8dfb13190260" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0

@@ -7,7 +7,7 @@
 	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
 
-	<name>mulesoft-application-template</name>
+	<name>pub-mulesoft-template</name>
 
 	<description/>
 	<properties>
@@ -28,30 +28,27 @@
 				<password>{connected-app-id}~?~{connected-app-password}</password>
 			</server>
 		 -->
-	<!-- Anypoint Platform tags -->
-	
+		<!-- Anypoint Platform tags -->
 		<tags>template, maven, demo</tags>
 		<categories>[]</categories>
 		<fields>[]</fields>
-	
-	<!-- Cloudhub Deployment tags -->
+		<!-- Cloudhub Deployment tags -->
 		<!-- change the environment -->
 		<mule.env>Sandbox</mule.env>
 		<app.name>${project.name}</app.name>
 		<app.runtime>4.4.0</app.runtime>
-		<mule.cloudhub.uri></mule.cloudhub.uri>
-		<mule.cloudhub.publicURL></mule.cloudhub.publicURL>
+		<mule.cloudhub.uri/>
+		<mule.cloudhub.publicURL/>
 		<mule.cloudhub.app.name>${project.name}</mule.cloudhub.app.name>
 		<mule.cloudhub.forwardSslSession>true</mule.cloudhub.forwardSslSession>
 		<mule.cloudhub.lastMileSecurity>true</mule.cloudhub.lastMileSecurity>
-	<!-- Cloudhub 1 Specific tags -->
-		<mule.cloudhub.environment></mule.cloudhub.environment>
-		<mule.cloudhub.region></mule.cloudhub.region>
-		<mule.cloudhub.workers></mule.cloudhub.workers>
-		<mule.cloudhub.worker.type></mule.cloudhub.worker.type>
-		<mule.cloudhub.properties></mule.cloudhub.properties>
-		 
-	<!-- Cloudhub 2 Specific tags -->	 
+		<!-- Cloudhub 1 Specific tags -->
+		<mule.cloudhub.environment/>
+		<mule.cloudhub.region/>
+		<mule.cloudhub.workers/>
+		<mule.cloudhub.worker.type/>
+		<mule.cloudhub.properties/>
+		<!-- Cloudhub 2 Specific tags -->
 		<mule.ch2.provider>MC</mule.ch2.provider>
 		<!-- there can only be a MAX of 8 replicas, it is a limit set by the platform -->
 		<mule.ch2.replicas>1</mule.ch2.replicas>
@@ -74,22 +71,22 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-				<!-- CLOUDHUB 1 DEPLOYMENT -->
+					<!-- CLOUDHUB 1 DEPLOYMENT -->
 					<cloudHubDeployment>
-				      <uri>${mule.cloudhub.uri}</uri>
-				      <muleVersion>${app.runtime}</muleVersion>
-				      <username>${username}</username>
-				      <password>${password}</password>
-				      <applicationName>${cloudhub.application.name}</applicationName>
-				      <environment>${mule.env}</environment>
-				      <region>${region}</region>
-				      <workers>${workers}</workers>
-				      <workerType>${workerType}</workerType>
-				      <properties>
-				        <key>value</key>
-				      </properties>
-				    </cloudHubDeployment>
-				 <!-- CLOUDHUB 2 DEPLOYMENT -->
+						<uri>${mule.cloudhub.uri}</uri>
+						<muleVersion>${app.runtime}</muleVersion>
+						<username>${username}</username>
+						<password>${password}</password>
+						<applicationName>${cloudhub.application.name}</applicationName>
+						<environment>${mule.env}</environment>
+						<region>${region}</region>
+						<workers>${workers}</workers>
+						<workerType>${workerType}</workerType>
+						<properties>
+							<key>value</key>
+						</properties>
+					</cloudHubDeployment>
+					<!-- CLOUDHUB 2 DEPLOYMENT -->
 					<cloudhub2Deployment>
 						<uri>${mule.cloudhub.uri}</uri>
 						<provider>${mule.ch2.provider}</provider>
@@ -111,6 +108,7 @@
 							</http>
 						</deploymentSettings>
 					</cloudhub2Deployment>
+					<classifier>mule-application</classifier>
 				</configuration>
 			</plugin>
 		</plugins>
