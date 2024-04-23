@@ -22,7 +22,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</tls:context>
 	<global-property doc:name="Global Property" doc:id="5e538b69-0a22-4128-858f-b772e196ee9f" name="secure.key" value="replaceWithRuntimeProperty" />
 	<configuration doc:name="Configuration" doc:id="6d4407fd-9ce3-4f36-ac29-795552c9828f" defaultErrorHandler-ref="api-error-handler" />
-	<http:listener-config name="test-application-httpListenerConfig">
+	<http:listener-config name="apikit_httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8082" protocol="HTTPS" tlsContext="1-Way-TLS_Context"/>
     </http:listener-config>
     <apikit:config name="test-application-config" api="test-application.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />

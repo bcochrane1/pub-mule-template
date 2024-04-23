@@ -172,7 +172,7 @@ output application/json
     </on-error-propagate>
   </error-handler>
 	<flow name="error-commonFlow" doc:id="541162a2-8482-4653-aaff-d2416a7eb6f6" >
-		<flow-ref doc:name="salesforce-integration-statusFlow" doc:id="f5091092-42d3-4e3d-a7d1-0df1f4f2ddfe" name="salesforce-integration-statusFlow"/>
+		<!-- [STUDIO:"salesforce-integration-statusFlow"]<flow-ref doc:name="salesforce-integration-statusFlow" doc:id="f5091092-42d3-4e3d-a7d1-0df1f4f2ddfe" name="salesforce-integration-statusFlow"/> [STUDIO] -->
 		<ee:transform doc:name="Transform Message" doc:id="ed75dec8-8bc0-409a-9d11-a8729eccf30a" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
