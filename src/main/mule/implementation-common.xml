@@ -15,6 +15,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 output application/java
 var event = if(isEmpty(vars.sourceEvent)) {"channel":""} else vars.sourceEvent
 
+//This function can be used to determine if the event is a Salesforce platform event or not and build the object accordingly
 var setObject = if(!isEmpty(event.channel)) {
     "channelId": event.channel,
 	"dataSource": "Salesforce",

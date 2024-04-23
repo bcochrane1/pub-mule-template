@@ -10,7 +10,7 @@
   a copy of which has been included with this distribution in the LICENSE.txt file.
   #L%
   -->
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="  http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="  http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
   <!--
   The including Mule app MUST:
   - include <import file="error-common.xml" doc:name="Import error-common.xml" />
@@ -20,80 +20,141 @@
       <ee:transform>
         <ee:message>
           <ee:set-payload><![CDATA[%dw 2.0
-            output application/json
-            ---
-            {message: "Bad request"}]]></ee:set-payload>
+output application/json
+---
+{
+	"errorCode": "400",
+	"errorMessage": "Invalid request message",
+	"transactionId": correlationId,
+	"timeStamp": now()
+}
+]]></ee:set-payload>
         </ee:message>
         <ee:variables>
-          <ee:set-variable variableName="httpStatus">400</ee:set-variable>
+          <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
         </ee:variables>
       </ee:transform>
+			<flow-ref doc:name="error-commonFlow" doc:id="7a7f7f4d-cb16-4cec-a352-b253eab3f712" name="error-commonFlow"/>
     </on-error-propagate>
     <on-error-propagate type="APIKIT:NOT_FOUND">
       <ee:transform>
         <ee:message>
           <ee:set-payload><![CDATA[%dw 2.0
-            output application/json
-            ---
-            {message: "Resource not found"}]]></ee:set-payload>
+output application/json
+---
+{
+	"errorCode": "404",
+	"errorMessage": "Requested resource was not found",
+	"transactionId": correlationId,
+	"timeStamp": now()
+}
+]]></ee:set-payload>
         </ee:message>
         <ee:variables>
-          <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+          <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
         </ee:variables>
       </ee:transform>
+			<flow-ref doc:name="error-commonFlow" doc:id="d555177c-e65c-40c8-a2a2-266cd34bb1a5" name="error-commonFlow" />
     </on-error-propagate>
     <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
       <ee:transform>
         <ee:message>
           <ee:set-payload><![CDATA[%dw 2.0
-            output application/json
-            ---
-            {message: "Method not allowed"}]]></ee:set-payload>
+output application/json
+---
+{
+	"errorCode": "405",
+	"errorMessage": "The target does not support the request method",
+	"transactionId": correlationId,
+	"timeStamp": now()
+}
+]]></ee:set-payload>
         </ee:message>
         <ee:variables>
-          <ee:set-variable variableName="httpStatus">405</ee:set-variable>
+          <ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
         </ee:variables>
       </ee:transform>
+			<flow-ref doc:name="error-commonFlow" doc:id="08c08c60-6b24-4b83-b421-b769916599a9" name="error-commonFlow" />
     </on-error-propagate>
     <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
       <ee:transform>
         <ee:message>
           <ee:set-payload><![CDATA[%dw 2.0
-            output application/json
-            ---
-            {message: "Not acceptable"}]]></ee:set-payload>
+output application/json
+---
+{
+	"errorCode": "406",
+	"errorMessage": "The requested resource cannot generate acceptable content according to the Accept headers sent in the request.",
+	"transactionId": correlationId,
+	"timeStamp": now()
+}
+]]></ee:set-payload>
         </ee:message>
         <ee:variables>
-          <ee:set-variable variableName="httpStatus">406</ee:set-variable>
+          <ee:set-variable variableName="httpStatus"><![CDATA[406]]></ee:set-variable>
         </ee:variables>
       </ee:transform>
+			<flow-ref doc:name="error-commonFlow" doc:id="b3b0b0a5-6a31-4195-9ad8-c789f70dadf4" name="error-commonFlow" />
     </on-error-propagate>
     <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
       <ee:transform>
         <ee:message>
           <ee:set-payload><![CDATA[%dw 2.0
-            output application/json
-            ---
-            {message: "Unsupported media type"}]]></ee:set-payload>
+output application/json
+---
+{
+	"errorCode": "415",
+	"errorMessage": "The server is refusing to the request because it is not in a format supported by the target resource.",
+	"transactionId": correlationId,
+	"timeStamp": now()
+}
+]]></ee:set-payload>
         </ee:message>
         <ee:variables>
-          <ee:set-variable variableName="httpStatus">415</ee:set-variable>
+          <ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
         </ee:variables>
       </ee:transform>
+			<flow-ref doc:name="error-commonFlow" doc:id="bb67e217-64ec-45c8-85a5-dde3be175f95" name="error-commonFlow" />
     </on-error-propagate>
     <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
       <ee:transform>
         <ee:message>
           <ee:set-payload><![CDATA[%dw 2.0
-            output application/json
-            ---
-            {message: "Not Implemented"}]]></ee:set-payload>
+output application/json
+---
+{
+	"errorCode": "501",
+	"errorMessage": "Not Implemented",
+	"transactionId": correlationId,
+	"timeStamp": now()
+}
+]]></ee:set-payload>
         </ee:message>
         <ee:variables>
-          <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+          <ee:set-variable variableName="httpStatus"><![CDATA[501]]></ee:set-variable>
         </ee:variables>
       </ee:transform>
+			<flow-ref doc:name="error-commonFlow" doc:id="366c6802-6a63-458a-be31-c74492594b39" name="error-commonFlow" />
     </on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e76d179b-2925-44aa-9717-635a738c5a13" type="ANY">
+			<ee:transform doc:name="Transform Message" doc:id="5114e94d-8b01-479b-94b8-21ac5f69c51b" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"errorCode": error.errorType default "500",
+	"errorMessage": error.errorMessage,
+  	"transactionId": correlationId,
+  	"timeStamp": now()
+}]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[501]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-commonFlow" doc:id="1fb88c05-c32f-4c97-890b-ebb1301102d4" name="error-commonFlow"/>
+		</on-error-propagate>
   </error-handler>
   <error-handler name="api-console-error-handler">
     <on-error-propagate type="APIKIT:NOT_FOUND">
@@ -110,4 +171,15 @@
       </ee:transform>
     </on-error-propagate>
   </error-handler>
+	<flow name="error-commonFlow" doc:id="541162a2-8482-4653-aaff-d2416a7eb6f6" >
+		<flow-ref doc:name="salesforce-integration-statusFlow" doc:id="f5091092-42d3-4e3d-a7d1-0df1f4f2ddfe" name="salesforce-integration-statusFlow"/>
+		<ee:transform doc:name="Transform Message" doc:id="ed75dec8-8bc0-409a-9d11-a8729eccf30a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
 </mule>
