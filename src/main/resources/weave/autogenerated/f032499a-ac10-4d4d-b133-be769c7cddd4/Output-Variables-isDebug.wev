@@ -1,4 +1,0 @@
-%dw 2.0
-
-type auto_f032499a_ac10_4d4d_b133_be769c7cddd4_Output_Variables_isDebug = Boolean
-

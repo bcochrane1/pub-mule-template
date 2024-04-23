@@ -13,7 +13,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="7031826e-aafc-4920-b5c7-bac46c12714e" file="properties/${mule.env}.yaml" key="${secure.key}" />
 	<configuration-properties doc:name="Configuration properties" doc:id="c85a2e47-342e-487c-a503-ddf9230ff33a" file="properties/common.yaml" />
 	<tls:context name="1-Way-TLS_Context" doc:name="TLS Context" doc:id="99cbfd16-ca22-404e-b132-5e35b305cad3" >
-		<tls:trust-store insecure="true" />
 		<tls:key-store type="${secure::tls.keystore.type}" path="security/${secure::tls.keystore.fileName}" alias="${secure::tls.keystore.alias}" keyPassword="${secure::tls.keystore.keyPassword}" password="${secure::tls.keystore.password}" />
 	</tls:context>
 	<tls:context name="2-Way-TLS_Context" doc:name="TLS Context" doc:id="d3893e4c-54d9-4be7-a3b3-4216ea2338f2" >
@@ -25,6 +24,5 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<http:listener-config name="apikit_httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8082" protocol="HTTPS" tlsContext="1-Way-TLS_Context"/>
     </http:listener-config>
-    <apikit:config name="test-application-config" api="test-application.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 	<http:request-config name="Salesforce_SAPI_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="b3e39a1f-5999-4601-9cd9-97acfb8543c8" />
 </mule>

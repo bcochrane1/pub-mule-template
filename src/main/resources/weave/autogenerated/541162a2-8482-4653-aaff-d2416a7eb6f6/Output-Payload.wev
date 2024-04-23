@@ -1,9 +1,0 @@
-%dw 2.0
-
-type auto_541162a2_8482_4653_aaff_d2416a7eb6f6_Output_Payload = {|
-  errorCode: String, 
-  errorMessage: String, 
-  transactionId: String, 
-  timeStamp: DateTime
-|}
-
