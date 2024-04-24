@@ -45,11 +45,11 @@
 			<munit-tools:assert-that doc:name="Assert that" doc:id="9d28702d-9faa-4505-aae8-89b2357515be" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
 		</munit:validation>
 	</munit:test>
-	<!-- [STUDIO:"salesforce-integration-status-test-suite-salesforce-integration-statusFlowTest"]<munit:test name="salesforce-integration-status-test-suite-salesforce-integration-statusFlowTest" doc:id="a64b2d3b-7e65-4c89-bb9e-ef49ce88abec" description="Test">
+	<munit:test name="salesforce-integration-status-test-suite-salesforce-integration-statusFlowTest" doc:id="a64b2d3b-7e65-4c89-bb9e-ef49ce88abec" description="Test">
 		<munit:execution >
 			<munit:set-event doc:name="Set Event" doc:id="c25838fe-151b-408a-a1b1-da3d0f8b1168" >
 				<munit:variables >
-					<munit:variable key="runData.isDebug" value="#[true&#93;" mediaType="application/json" />
+					<munit:variable key="runData" value='#[%dw 2.0&#10;output application/json&#10;--- {"isDebug": true}  ]' mediaType="application/json" />
 				</munit:variables>
 			</munit:set-event>
 			<flow-ref doc:name="Flow-ref to salesforce-integration-statusFlow" doc:id="70209060-3b2d-414e-b74d-f4041995bc10" name="salesforce-integration-statusFlow"/>
@@ -61,6 +61,6 @@
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
-	</munit:test> [STUDIO] -->
+	</munit:test>
 
 </mule>
