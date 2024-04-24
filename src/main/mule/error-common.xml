@@ -24,7 +24,7 @@ output application/json
 ---
 {
 	"errorCode": "400",
-	"errorMessage": "Invalid request message",
+	"errorMessage": error.description,
 	"transactionId": correlationId,
 	"timeStamp": now()
 }
@@ -44,7 +44,7 @@ output application/json
 ---
 {
 	"errorCode": "404",
-	"errorMessage": "Requested resource was not found",
+	"errorMessage": error.description,
 	"transactionId": correlationId,
 	"timeStamp": now()
 }
@@ -64,7 +64,7 @@ output application/json
 ---
 {
 	"errorCode": "405",
-	"errorMessage": "The target does not support the request method",
+	"errorMessage": error.description,
 	"transactionId": correlationId,
 	"timeStamp": now()
 }
@@ -84,7 +84,7 @@ output application/json
 ---
 {
 	"errorCode": "406",
-	"errorMessage": "The requested resource cannot generate acceptable content according to the Accept headers sent in the request.",
+	"errorMessage": error.description,
 	"transactionId": correlationId,
 	"timeStamp": now()
 }
@@ -104,7 +104,7 @@ output application/json
 ---
 {
 	"errorCode": "415",
-	"errorMessage": "The server is refusing to the request because it is not in a format supported by the target resource.",
+	"errorMessage": error.description,
 	"transactionId": correlationId,
 	"timeStamp": now()
 }
@@ -124,7 +124,7 @@ output application/json
 ---
 {
 	"errorCode": "501",
-	"errorMessage": "Not Implemented",
+	"errorMessage": error.description,
 	"transactionId": correlationId,
 	"timeStamp": now()
 }
