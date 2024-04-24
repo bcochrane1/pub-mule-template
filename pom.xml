@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>5854e6ad-4c66-47c0-921e-72092756f614</groupId>
 	<artifactId>application-template-v1</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<packaging>mule-application</packaging>
 	<name>pub-mulesoft-template</name>
 	<description/>
@@ -62,6 +62,7 @@
 		<mule.ch2.vCores>0.1</mule.ch2.vCores>
 		<!-- available cloudhub targets:  -->
 		<mule.ch2.target>Cloudhub-US-East-2</mule.ch2.target>
+		<munit.version>3.0.0</munit.version>
 	</properties>
 	<build>
 		<plugins>
@@ -91,6 +92,29 @@
 							<key>value</key>
 						</properties>
 					</cloudHubDeployment>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.mulesoft.munit.tools</groupId>
+				<artifactId>munit-maven-plugin</artifactId>
+				<version>${munit.version}</version>
+				<executions>
+					<execution>
+						<id>test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+							<goal>coverage-report</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<coverage>
+						<runCoverage>true</runCoverage>
+						<formats>
+							<format>html</format>
+						</formats>
+					</coverage>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -159,6 +183,26 @@
 			<groupId>org.mule.weave</groupId>
 			<artifactId>data-weave-testing-framework</artifactId>
 			<version>${data.weave.testing.framework.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.munit</groupId>
+			<artifactId>munit-runner</artifactId>
+			<version>3.1.0</version>
+			<classifier>mule-plugin</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.munit</groupId>
+			<artifactId>munit-tools</artifactId>
+			<version>3.1.0</version>
+			<classifier>mule-plugin</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>assertions</artifactId>
+			<version>1.2.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -12,7 +12,7 @@ tls:
 
 sapi:
   salesforce:
-    host: ""
+    host: "localhost"
     port: "8092"
     maxConnections: "-1"
     timeout: "30000"
