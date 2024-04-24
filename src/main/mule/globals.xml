@@ -31,7 +31,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</reconnection>
 		</http:request-connection>
 		<http:default-headers >
-			<http:default-header key="client_id" value="${salesforce::sapi.salesforce.client_id}" />
+			<http:default-header key="client_id" value="${secure::sapi.salesforce.client_id}" />
 			<http:default-header key="client_secret" value="${secure::sapi.salesforce.client_secret}" />
 		</http:default-headers>
 	</http:request-config>

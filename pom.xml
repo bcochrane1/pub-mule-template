@@ -1,27 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    
-    <groupId>5854e6ad-4c66-47c0-921e-72092756f614</groupId>
-    <artifactId>application-template-v1</artifactId>
-    <version>1.0.0</version>
-    <packaging>mule-application</packaging>
-    
-    <name>pub-mulesoft-template</name>
-    
-    <description/>
-    <properties>
-        <app.runtime>4.6.0</app.runtime>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- maven version must be 3.8.1 or higher to deploy to Cloudhub 2.0 -->
-        <mule.maven.plugin.version>4.1.0</mule.maven.plugin.version>
-        <mule.maven.clean.plugin.version>3.2.0</mule.maven.clean.plugin.version>
-        <!-- Mulesoft Runtime Version -->
-        <mule.maven.plugin.muleVersion>4.4.0</mule.maven.plugin.muleVersion>
-        <!-- mule.maven.plugin.server needs to match the server.id in /.m2/settings.xml -->
-        <mule.maven.plugin.server>anypoint-exchange-v3</mule.maven.plugin.server>
-        <!-- 
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>5854e6ad-4c66-47c0-921e-72092756f614</groupId>
+	<artifactId>application-template-v1</artifactId>
+	<version>1.0.1</version>
+	<packaging>mule-application</packaging>
+	<name>pub-mulesoft-template</name>
+	<description/>
+	<properties>
+		<app.runtime>4.6.0</app.runtime>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- maven version must be 3.8.1 or higher to deploy to Cloudhub 2.0 -->
+		<mule.maven.plugin.version>4.1.0</mule.maven.plugin.version>
+		<mule.maven.clean.plugin.version>3.2.0</mule.maven.clean.plugin.version>
+		<!-- Mulesoft Runtime Version -->
+		<mule.maven.plugin.muleVersion>4.4.0</mule.maven.plugin.muleVersion>
+		<!-- mule.maven.plugin.server needs to match the server.id in /.m2/settings.xml -->
+		<mule.maven.plugin.server>anypoint-exchange-v3</mule.maven.plugin.server>
+		<!-- 
 		This needs to go into the settings.xml with the correct credentials. 
 		if not using a connected app, you can put your Anypoint username an password in the respective tags.
 			<server>
@@ -30,171 +27,164 @@
 				<password>{connected-app-id}~?~{connected-app-password}</password>
 			</server>
 		 -->
-        <!-- DEPENDENCY VERSION -->
-        <app.http.connector.version>1.9.1</app.http.connector.version>
-        <app.secure.property.version>1.2.7</app.secure.property.version>
-        <app.sockets.connector.version>1.2.4</app.sockets.connector.version>
-        <app.apikit.version>1.10.4</app.apikit.version>
-        
+		<!-- DEPENDENCY VERSION -->
+		<app.http.connector.version>1.9.1</app.http.connector.version>
+		<app.secure.property.version>1.2.7</app.secure.property.version>
+		<app.sockets.connector.version>1.2.4</app.sockets.connector.version>
+		<app.apikit.version>1.10.4</app.apikit.version>
+		<data.weave.version>2.5.0</data.weave.version>
+		<data.weave.testing.framework.version>1.2.2</data.weave.testing.framework.version>
+		<data.weave.maven.plugin.version>0.3.4</data.weave.maven.plugin.version>
+		<!-- Anypoint Platform tags -->
+		<tags>template,maven,demo</tags>
+		<categories>[]</categories>
+		<fields>[]</fields>
+		<!-- Cloudhub Deployment tags -->
+		<!-- change the environment -->
+		<mule.env>Sandbox</mule.env>
+		<app.name>${project.name}</app.name>
+		<mule.cloudhub.uri/>
+		<mule.cloudhub.publicURL/>
+		<mule.cloudhub.app.name>${project.name}</mule.cloudhub.app.name>
+		<mule.cloudhub.forwardSslSession>true</mule.cloudhub.forwardSslSession>
+		<mule.cloudhub.lastMileSecurity>true</mule.cloudhub.lastMileSecurity>
+		<!-- Cloudhub 1 Specific tags -->
+		<mule.cloudhub.environment/>
+		<mule.cloudhub.region/>
+		<mule.cloudhub.workers/>
+		<mule.cloudhub.worker.type/>
+		<mule.cloudhub.properties/>
+		<!-- Cloudhub 2 Specific tags -->
+		<mule.ch2.provider>MC</mule.ch2.provider>
+		<!-- there can only be a MAX of 8 replicas, it is a limit set by the platform -->
+		<mule.ch2.replicas>1</mule.ch2.replicas>
+		<!-- CH2.0 can use these vCores: 0.1, 0.2, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4 -->
+		<mule.ch2.vCores>0.1</mule.ch2.vCores>
+		<!-- available cloudhub targets:  -->
+		<mule.ch2.target>Cloudhub-US-East-2</mule.ch2.target>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>${mule.maven.clean.plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.mule.tools.maven</groupId>
+				<artifactId>mule-maven-plugin</artifactId>
+				<version>${mule.maven.plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<!-- CLOUDHUB 1 DEPLOYMENT -->
+					<cloudHubDeployment>
+						<uri>${mule.cloudhub.uri}</uri>
+						<muleVersion>${app.runtime}</muleVersion>
+						<username>${username}</username>
+						<password>${password}</password>
+						<applicationName>${cloudhub.application.name}</applicationName>
+						<environment>${mule.env}</environment>
+						<region>${region}</region>
+						<workers>${workers}</workers>
+						<workerType>${workerType}</workerType>
+						<properties>
+							<key>value</key>
+						</properties>
+					</cloudHubDeployment>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-http-connector</artifactId>
+			<version>${app.http.connector.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.modules</groupId>
+			<artifactId>mule-secure-configuration-property-module</artifactId>
+			<version>${app.secure.property.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-sockets-connector</artifactId>
+			<version>${app.sockets.connector.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-apikit-module</artifactId>
+			<version>${app.apikit.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>runtime</artifactId>
+			<version>${data.weave.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
-        <data.weave.version>2.5.0</data.weave.version>
-        <data.weave.testing.framework.version>1.2.2</data.weave.testing.framework.version>
-        <data.weave.maven.plugin.version>0.3.4</data.weave.maven.plugin.version>
-        <!-- Anypoint Platform tags -->
-        <tags>template,maven,demo</tags>
-        <categories>[]</categories>
-        <fields>[]</fields>
-        <!-- Cloudhub Deployment tags -->
-        <!-- change the environment -->
-        <mule.env>Sandbox</mule.env>
-        <app.name>${project.name}</app.name>
-        <mule.cloudhub.uri/>
-        <mule.cloudhub.publicURL/>
-        <mule.cloudhub.app.name>${project.name}</mule.cloudhub.app.name>
-        <mule.cloudhub.forwardSslSession>true</mule.cloudhub.forwardSslSession>
-        <mule.cloudhub.lastMileSecurity>true</mule.cloudhub.lastMileSecurity>
-        <!-- Cloudhub 1 Specific tags -->
-        <mule.cloudhub.environment/>
-        <mule.cloudhub.region/>
-        <mule.cloudhub.workers/>
-        <mule.cloudhub.worker.type/>
-        <mule.cloudhub.properties/>
-        <!-- Cloudhub 2 Specific tags -->
-        <mule.ch2.provider>MC</mule.ch2.provider>
-        <!-- there can only be a MAX of 8 replicas, it is a limit set by the platform -->
-        <mule.ch2.replicas>1</mule.ch2.replicas>
-        <!-- CH2.0 can use these vCores: 0.1, 0.2, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4 -->
-        <mule.ch2.vCores>0.1</mule.ch2.vCores>
-        <!-- available cloudhub targets:  -->
-        <mule.ch2.target>Cloudhub-US-East-2</mule.ch2.target>
-    </properties>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>${mule.maven.clean.plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.mule.tools.maven</groupId>
-                <artifactId>mule-maven-plugin</artifactId>
-                <version>${mule.maven.plugin.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <!-- CLOUDHUB 1 DEPLOYMENT -->
-                    <cloudHubDeployment>
-                        <uri>${mule.cloudhub.uri}</uri>
-                        <muleVersion>${app.runtime}</muleVersion>
-                        <username>${username}</username>
-                        <password>${password}</password>
-                        <applicationName>${cloudhub.application.name}</applicationName>
-                        <environment>${mule.env}</environment>
-                        <region>${region}</region>
-                        <workers>${workers}</workers>
-                        <workerType>${workerType}</workerType>
-                        <properties>
-                            <key>value</key>
-                        </properties>
-                    </cloudHubDeployment>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    
-    <dependencies>
-        <dependency>
-            <groupId>org.mule.connectors</groupId>
-            <artifactId>mule-http-connector</artifactId>
-            <version>${app.http.connector.version}</version>
-            <classifier>mule-plugin</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.mulesoft.modules</groupId>
-            <artifactId>mule-secure-configuration-property-module</artifactId>
-            <version>${app.secure.property.version}</version>
-            <classifier>mule-plugin</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.mule.connectors</groupId>
-            <artifactId>mule-sockets-connector</artifactId>
-            <version>${app.sockets.connector.version}</version>
-            <classifier>mule-plugin</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.mule.modules</groupId>
-            <artifactId>mule-apikit-module</artifactId>
-            <version>${app.apikit.version}</version>
-            <classifier>mule-plugin</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.mule.weave</groupId>
-            <artifactId>runtime</artifactId>
-            <version>${data.weave.version}</version>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>core-modules</artifactId>
+			<version>${data.weave.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.mule.weave</groupId>
-            <artifactId>core-modules</artifactId>
-            <version>${data.weave.version}</version>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>java-module</artifactId>
+			<version>${data.weave.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.mule.weave</groupId>
-            <artifactId>java-module</artifactId>
-            <version>${data.weave.version}</version>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>yaml-module</artifactId>
+			<version>${data.weave.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.mule.weave</groupId>
-            <artifactId>yaml-module</artifactId>
-            <version>${data.weave.version}</version>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>ndjson-module</artifactId>
+			<version>${data.weave.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>org.mule.weave</groupId>
-            <artifactId>ndjson-module</artifactId>
-            <version>${data.weave.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mule.weave</groupId>
-            <artifactId>data-weave-testing-framework</artifactId>
-            <version>${data.weave.testing.framework.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-    
-    <repositories>
-        <repository>
-            <id>anypoint-exchange-v3</id>
-            <name>Anypoint Exchange</name>
-            <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>mulesoft-releases</id>
-            <name>MuleSoft Releases Repository</name>
-            <url>https://repository.mulesoft.org/releases/</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
-    
-    <pluginRepositories>
-        <pluginRepository>
-            <id>mulesoft-releases</id>
-            <name>MuleSoft Releases Repository</name>
-            <layout>default</layout>
-            <url>https://repository.mulesoft.org/releases/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-    
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>data-weave-testing-framework</artifactId>
+			<version>${data.weave.testing.framework.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>anypoint-exchange-v3</id>
+			<name>Anypoint Exchange</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<url>https://repository.mulesoft.org/releases/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<layout>default</layout>
+			<url>https://repository.mulesoft.org/releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
