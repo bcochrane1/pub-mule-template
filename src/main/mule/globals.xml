@@ -21,8 +21,18 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</tls:context>
 	<global-property doc:name="Global Property" doc:id="5e538b69-0a22-4128-858f-b772e196ee9f" name="secure.key" value="replaceWithRuntimeProperty" />
 	<configuration doc:name="Configuration" doc:id="6d4407fd-9ce3-4f36-ac29-795552c9828f" defaultErrorHandler-ref="api-error-handler" />
-	<http:listener-config name="apikit_httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8082" protocol="HTTPS" tlsContext="1-Way-TLS_Context"/>
+	<http:listener-config name="apikit_httpListenerConfig" doc:name="apikit_httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="${https.private.port}" protocol="HTTPS" tlsContext="1-Way-TLS_Context" readTimeout="${https.listener.readTimeout}" connectionIdleTimeout="${https.listener.idleTimeout}"/>
     </http:listener-config>
-	<http:request-config name="Salesforce_SAPI_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="b3e39a1f-5999-4601-9cd9-97acfb8543c8" />
+	<http:request-config name="Salesforce_SAPI_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="b3e39a1f-5999-4601-9cd9-97acfb8543c8" basePath="${secure::sapi.salesforce.path.base}">
+		<http:request-connection protocol="HTTPS" host="${secure::sapi.salesforce.host}" port="${secure::sapi.salesforce.port}" maxConnections="${secure::sapi.salesforce.maxConnections}" connectionIdleTimeout="${secure::sapi.salesforce.timeout}" >
+			<reconnection >
+				<reconnect frequency="${secure::sapi.salesforce.reconnect.frequency}" count="${secure::sapi.salesforce.reconnect.attempts}" />
+			</reconnection>
+		</http:request-connection>
+		<http:default-headers >
+			<http:default-header key="client_id" value="${salesforce::sapi.salesforce.client_id}" />
+			<http:default-header key="client_secret" value="${secure::sapi.salesforce.client_secret}" />
+		</http:default-headers>
+	</http:request-config>
 </mule>

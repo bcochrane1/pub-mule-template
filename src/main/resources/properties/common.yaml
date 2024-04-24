@@ -4,3 +4,9 @@ anypoint:
   platform:
     #update list based on the implementation type
     visualizer: "Experience, Process, System"
+https:
+  private:
+    port: "8082"
+  listener:
+    readTimeout: "30000"
+    idleTimeout: "40000"

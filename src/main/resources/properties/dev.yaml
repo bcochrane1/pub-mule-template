@@ -13,10 +13,16 @@ tls:
 sapi:
   salesforce:
     host: ""
-    port: ""
-    maxConnections: ""
-    idle: ""
-    username: "![]"
-    password: "![]"
+    port: "8092"
+    maxConnections: "-1"
+    timeout: "30000"
+    client_id: "![]"
+    client_secret: "![]"
+    reconnect:
+      frequency: "3000"
+      attempts: "2"
     path:
-      status: "/integration/status"
+      base: "/api"
+      integrationStatus: "/integration/status"
+      contacts: "/contacts"
+      ping: "/ping"
