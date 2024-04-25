@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="pingFlow" doc:id="b04c92a0-3288-43af-b9ed-5fde4218ee60" >
+		<choice doc:name="Choice" doc:id="6a92670a-4729-42bd-8c5b-a5e1ae2998cc" >
+			<when expression="#[attributes.queryParams.checkDependencies]">
+				<flow-ref doc:name="checkDependencies" doc:id="7c2c07f2-c110-40d5-8d4f-8483ae754745" name="checkDependencies" target="dependencies"/>
+			</when>
+		</choice>
+		<ee:transform doc:name="Transform Message" doc:id="aedeaaf4-6839-40b4-9928-7402f0508dbc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn='everywhere'
+
+fun setStatus(dependencies) = if((dependencies..status map ((item, index) -> upper(item) contains  "DOWN" )) contains true) "DEGRADED" else "UP"
+---
+{
+  status: setStatus(vars.dependencies) default "DOWN",
+  apiName: Mule::p('app.name'),
+  apiVersion: Mule::p('app.version'),
+  timestamp: now() >> "UTC",
+  dependencies: vars.dependencies default null
+} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="checkDependencies" doc:id="8e96e7e4-d167-4730-91d6-4213093a3516" >
+		<flow-ref doc:name="dependency: pingDependency" doc:id="e21d4624-f105-4480-b157-9dd117a5acd1" target="dependency" name="pingDependency"/>
+		<ee:transform doc:name="Transform Message" doc:id="6e38e3d8-3d66-4bca-b3e0-414499b7f2c4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[] + vars.dependency]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="pingDependency" doc:id="93a608d2-4b6e-4116-b531-4fda00702bf3" >
+		<logger level="INFO" doc:name="implementation to check dependency connectivity" doc:id="5ccead42-a9b8-4e0c-8a35-9cb536a41e32" message="implementation to check dependency connectivity"/>
+		<ee:transform doc:name="Transform Message" doc:id="82c0412a-a126-41f4-a71a-a1a3801948a5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"name": "Default Dependency Name",
+	"status": if(isEmpty(payload[0].Id)) "DOWN" else "UP"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

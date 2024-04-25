@@ -1,0 +1,207 @@
+{
+	"info": {
+		"_postman_id": "c7b09358-ab90-45f3-864e-38dc246fce86",
+		"name": "nmrld-salesforce-sapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24234432"
+	},
+	"item": [
+		{
+			"name": "ping",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "1234567890abcdef1234567890abcdef",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "1234567890abcdef1234567890abcdef",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8082/api/ping",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"ping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/contacts by ssn",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "1234567890abcdef1234567890abcdef",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "1234567890abcdef1234567890abcdef",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8082/api/contacts?ssn=123456789",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"contacts"
+					],
+					"query": [
+						{
+							"key": "ssn",
+							"value": "123456789"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/contacts/{contactId}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "1234567890abcdef1234567890abcdef",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "1234567890abcdef1234567890abcdef",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8082/api/contacts?ssn=123456789",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"contacts"
+					],
+					"query": [
+						{
+							"key": "ssn",
+							"value": "123456789"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/contacts/{contactId}",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "1234567890abcdef1234567890abcdef",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "1234567890abcdef1234567890abcdef",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"isCompliant\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8082/api/contacts/003OD000003vllvYAA",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"contacts",
+						"003OD000003vllvYAA"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "integrations/status",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "1234567890abcdef1234567890abcdef",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "1234567890abcdef1234567890abcdef",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"applicationName\": \"example-application-papi\",\n  \"channelId\": \"contactEventChannel\",\n  \"correlationId\": \"4f6cbddc-be0c-4795-8e0a-edbe542e076b\",\n  \"dataSource\": \"Salesforce\",\n  \"dataTarget\": \"Salesforce\",\n  \"startTime\": \"2024-04-18T20:32:54.444689Z\",\n  \"endTime\": \"2024-04-18T20:32:54.444689Z\",\n  \"message\": \"error.description\",\n  \"platform\": \"mulesoft\",\n  \"processName\": \"Contact compliance status\",\n  \"relatedRecordId\": \"984267\",\n  \"salesforceRecordId\": \"uF83g000000c5mPCAQ\",\n  \"status\": \"started\",\n  \"type\": \"REST, Event, Schedule, Platform Event, CDC Event\",\n  \"replayId\": \"5256\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8082/api/integrations/status",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"integrations",
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

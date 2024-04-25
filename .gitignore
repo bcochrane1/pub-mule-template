@@ -46,3 +46,4 @@ target/
 .DS_Store
 velocity.log
 .tooling-project
+src/main/resources/weave/
