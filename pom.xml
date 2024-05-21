@@ -92,6 +92,7 @@
 							<key>value</key>
 						</properties>
 					</cloudHubDeployment>
+					<classifier>---- select project type ----</classifier>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -113,7 +114,15 @@
 						<runCoverage>true</runCoverage>
 						<formats>
 							<format>html</format>
-						</formats>
+							<format>console</format>
+						</formats>	
+						<ignoreFiles>
+							<ignoreFile>error-common.xml</ignoreFile>
+						</ignoreFiles>
+						<ignoreFlows>
+							<ignoreFlow>pub-mulesoft-template-main</ignoreFlow>
+							<ignoreFlow>pub-mulesoft-template-console</ignoreFlow>
+						</ignoreFlows>
 					</coverage>
 				</configuration>
 			</plugin>
@@ -212,10 +221,17 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>com.mulesoft.connectors</groupId>
-			<artifactId>mule-as2-connector</artifactId>
-			<version>6.6.0</version>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-file-connector</artifactId>
+			<version>1.5.2</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>5854e6ad-4c66-47c0-921e-72092756f614</groupId>
+			<artifactId>dlb-demo</artifactId>
+			<version>1.0.1</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 	<repositories>

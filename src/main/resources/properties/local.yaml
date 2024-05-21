@@ -26,4 +26,3 @@ sapi:
       integrationStatus: "/integration/status"
       contacts: "/contacts"
       ping: "/ping"
-      composite: "/composite"

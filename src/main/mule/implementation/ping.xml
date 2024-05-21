@@ -46,8 +46,13 @@ output application/json
 output application/json
 ---
 {
-	"name": "Default Dependency Name",
-	"status": if(isEmpty(payload[0].Id)) "DOWN" else "UP"
+	"path": Mule::p('secure::sapi.ping'),
+	"method": "GET",
+	"body": null,
+	"headers": null,
+	"uriParams": null,
+	"queryParams": attributes.queryParams
+	
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>

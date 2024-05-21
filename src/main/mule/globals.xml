@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:cluster="http://www.mulesoft.org/schema/mule/ee/cluster" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:cluster="http://www.mulesoft.org/schema/mule/ee/cluster" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
 	<global-property doc:name="Global Property" doc:id="dd8dc242-d907-4786-88d9-deab01481fb2" name="mule.env" value="dev" />
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="7031826e-aafc-4920-b5c7-bac46c12714e" file="properties/${mule.env}.yaml" key="${secure.key}" />
 	<configuration-properties doc:name="Configuration properties" doc:id="c85a2e47-342e-487c-a503-ddf9230ff33a" file="properties/common.yaml" />
@@ -25,7 +26,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
         <http:listener-connection host="0.0.0.0" port="${https.private.port}" protocol="HTTPS" tlsContext="1-Way-TLS_Context" readTimeout="${https.listener.readTimeout}" connectionIdleTimeout="${https.listener.idleTimeout}"/>
     </http:listener-config>
 	<http:request-config name="Salesforce_SAPI_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="b3e39a1f-5999-4601-9cd9-97acfb8543c8" basePath="${secure::sapi.salesforce.path.base}">
-		<http:request-connection protocol="HTTPS" host="${secure::sapi.salesforce.host}" port="${secure::sapi.salesforce.port}" maxConnections="${secure::sapi.salesforce.maxConnections}" connectionIdleTimeout="${secure::sapi.salesforce.timeout}" >
+		<http:request-connection protocol="HTTPS" host="${secure::sapi.salesforce.host}" maxConnections="${secure::sapi.salesforce.maxConnections}" connectionIdleTimeout="${secure::sapi.salesforce.timeout}" >
 			<reconnection >
 				<reconnect frequency="${secure::sapi.salesforce.reconnect.frequency}" count="${secure::sapi.salesforce.reconnect.attempts}" />
 			</reconnection>
@@ -35,4 +36,5 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:default-header key="client_secret" value="${secure::sapi.salesforce.client_secret}" />
 		</http:default-headers>
 	</http:request-config>
+	<api-gateway:autodiscovery apiId="19481649" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="a3fcbbcf-7a5d-4aee-bd75-03f90424a11e" flowRef="dlb-demo-main" />
 </mule>
