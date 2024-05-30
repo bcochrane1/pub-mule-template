@@ -9,17 +9,6 @@
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="ping-test-suite.xml" />
 	<munit:test name="ping-test-suite-pingFlowTest-check-dependencies-is-true" doc:id="2baed6be-4250-40be-9490-060a0f3f6e6b" description="Test">
-		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock when : querySalesforceFlow" doc:id="094d1fcc-e4fd-42b0-9e2b-a692c3b9607d" processor="flow-ref">
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="querySalesforceFlow" attributeName="doc:name" />
-					<munit-tools:with-attribute whereValue="2b179550-8368-4fe1-beb7-8c342a765b7a" attributeName="doc:id" />
-				</munit-tools:with-attributes>
-				<munit-tools:then-return >
-					<munit-tools:payload value="#[%dw 2.0&#10;output application/json&#10;---&#10;readUrl('classpath://examples/response/salesforce-sapi-get-contact-by-ssn.txt', &quot;application/json&quot;)]" mediaType="application/json" />
-				</munit-tools:then-return>
-			</munit-tools:mock-when>
-		</munit:behavior>
 		<munit:execution >
 			<munit:set-event doc:name="Set Event" doc:id="4e31349c-5b4e-4ae5-8b76-85f72f2b4096" >
 				<munit:attributes value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"queryParams": {&#10;		"checkDependencies": true&#10;	}&#10;}]' />
@@ -45,8 +34,8 @@
 		<munit:validation >
 			<munit-tools:verify-call doc:name="default logger" doc:id="cfe5d7b1-2747-451b-b91a-47ea07ab6a8f" processor="logger" >
 				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="running ping without checking dependencies" attributeName="doc:name" />
-					<munit-tools:with-attribute whereValue="21e9d7dd-0921-414f-8fc6-d6f3f63d20be" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Logger" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="ed746393-42cc-4642-8b61-0426408809b6" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>

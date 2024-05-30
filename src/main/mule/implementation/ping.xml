@@ -9,6 +9,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<when expression="#[attributes.queryParams.checkDependencies]">
 				<flow-ref doc:name="checkDependencies" doc:id="7c2c07f2-c110-40d5-8d4f-8483ae754745" name="checkDependencies" target="dependencies"/>
 			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="ed746393-42cc-4642-8b61-0426408809b6" message="checkDependency is false. "/>
+			</otherwise>
 		</choice>
 		<ee:transform doc:name="Transform Message" doc:id="aedeaaf4-6839-40b4-9928-7402f0508dbc" >
 			<ee:message >
