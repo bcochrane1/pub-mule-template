@@ -226,13 +226,6 @@
 			<version>1.5.2</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
-		<dependency>
-			<groupId>5854e6ad-4c66-47c0-921e-72092756f614</groupId>
-			<artifactId>dlb-demo</artifactId>
-			<version>1.0.1</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
-		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
