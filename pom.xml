@@ -62,7 +62,7 @@
 		<mule.ch2.vCores>0.1</mule.ch2.vCores>
 		<!-- available cloudhub targets:  -->
 		<mule.ch2.target>Cloudhub-US-East-2</mule.ch2.target>
-		<munit.version>3.0.0</munit.version>
+		<munit.version>3.1.0</munit.version>
 	</properties>
 	<build>
 		<plugins>

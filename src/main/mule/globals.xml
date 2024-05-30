@@ -36,5 +36,4 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 			<http:default-header key="client_secret" value="${secure::sapi.salesforce.client_secret}" />
 		</http:default-headers>
 	</http:request-config>
-	<api-gateway:autodiscovery apiId="19481649" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="a3fcbbcf-7a5d-4aee-bd75-03f90424a11e" flowRef="dlb-demo-main" />
 </mule>
