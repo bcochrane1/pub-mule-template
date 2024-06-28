@@ -6,13 +6,9 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd">
 	<sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="7fd6ee2a-84a1-4740-a8f7-c51487c909c2" >
-		<sftp:connection host="164.64.236.232" />
+		<sftp:connection host="localhost" port="2222" username="linuxserver.io" password="password"/>
 	</sftp:config>
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d9419d61-a1f4-48fe-bfb4-acdc3cff18c7" >
-		<http:listener-connection host="0.0.0.0" port="8081" />
-	</http:listener-config>
-	<flow name="testFlow" doc:id="0cafb633-9b03-4d25-b0f2-1765605a27f1" >
-		<http:listener doc:name="Listener" doc:id="5511213c-67e5-4ec0-b3d1-5772673a5d44" config-ref="HTTP_Listener_config" path="/test"/>
-		<flow-ref doc:name="Flow Reference" doc:id="4d672f30-2028-4dd4-b7d5-0f8616fba390" name="pingFlow"/>
+	<flow name="testFlow" doc:id="131a7cac-e086-4f29-b678-7a09b47abf28" >
+		<sftp:list doc:name="List" doc:id="e822a3d7-f23a-4fb9-89f6-b6ea49ca0877" config-ref="SFTP_Config" directoryPath="/"/>
 	</flow>
 </mule>

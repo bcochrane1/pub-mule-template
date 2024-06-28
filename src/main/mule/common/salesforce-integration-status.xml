@@ -8,36 +8,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<flow name="salesforce-integration-statusFlow" doc:id="f032499a-ac10-4d4d-b133-be769c7cddd4" >
 		<ee:transform doc:name="Transform Message" doc:id="bb8bc15a-fc2a-4000-abf5-b3f5ee00920c">
 			<ee:message>
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
-
-var runData = vars.runData
-
-var statusMap = (status) -> {
-	"InProgress": "In Progress",
-	"Success": "Success",
-	"Error": "Error",
-	"Failure": "Failure"
-}
----
-[{
-	"Application_Name__c":Mule::p('app.name'),
-	"Channel_ID__c": runData.channelId,
-	"Correlation_ID__c": correlationId,
-	"Data_Source__c": runData.dataSource,
-	"Data_Target__c": runData.dataTarget,
-	"End_Time__c": now() >> "UTC",
-	"Message__c": runData.message,
-	"Platform__c": Mule::p('app.platform'),
-	"Process_Name__c": Mule::p('app.process.enrollments'),
-	"Related_Record_ID__c": runData.relatedRecordId,
-	"Salesforce_Record_ID__c": runData.salesforceRecordId,
-	"Start_Time__c": runData.startTime,
-	"Status__c": runData.status,
-	"Type__c": runData."type",
-	"Replay_ID__c": if(isEmpty(runData.replayId)) null else runData.replayId as String
-}]
-]]></ee:set-payload>
+				<ee:set-payload resource="dataweave/setIntegrationStatusObject.dwl" />
 			</ee:message>
 			<ee:variables >
 				<ee:set-variable variableName="isDebug" ><![CDATA[%dw 2.0

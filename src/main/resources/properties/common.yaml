@@ -4,7 +4,10 @@ anypoint:
   platform:
     #update list based on the implementation type
     visualizer: "Experience, Process, System"
+
 https:
+  port: "8082"
+  host: "0.0.0.0"
   private:
     port: "8082"
   listener:
