@@ -1,9 +1,5 @@
 tls:
   server: 
-    truststore:
-      fileName: "trustStores/truststore.p12"
-      password: "123"
-      type: "PKCS12"
     keystore:
       type: "PKCS12"
       fileName: "keyStores/server.p12"
@@ -11,22 +7,11 @@ tls:
       keyPassword: "456"
       password: "123"
   
-  client:
-    truststore:
-      fileName: "trustStores/truststore.p12"
-      password: "123"
-      type: "PKCS12"
-    keystore:
-      type: "PKCS12"
-      fileName: "keyStores/client.p12"
-      alias: "client"
-      keyPassword: "456"
-      password: "123"
 
 sapi:
   salesforce:
     host: "localhost"
-    port: "8092"
+    port: "8082"
     maxConnections: "-1"
     timeout: "30000"
     client_id: ""
@@ -36,7 +21,6 @@ sapi:
       attempts: "2"
     path:
       base: "/api"
-      integrationStatus: "/integration/status"
-      contacts: "/contacts"
+      integrationStatus: "/integrations/status"
       ping: "/ping"
       composite: "/composite"

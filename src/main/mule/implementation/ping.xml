@@ -11,51 +11,134 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</when>
 			<otherwise >
 				<logger level="INFO" doc:name="Logger" doc:id="ed746393-42cc-4642-8b61-0426408809b6" message="checkDependency is false. "/>
+				<set-variable value="#[Mule:p('process.ping.up') default &quot;UP&quot;]" doc:name="status" doc:id="8d6fd0af-6d41-44cd-a55d-905b44639e91" variableName="status"/>
 			</otherwise>
 		</choice>
 		<ee:transform doc:name="Transform Message" doc:id="aedeaaf4-6839-40b4-9928-7402f0508dbc" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json skipNullOn='everywhere'
+import dataweave::commons
+var degraded = Mule::p('process.ping.degraded')
+var up = Mule::p('process.ping.up')
+var down = Mule::p('process.ping.down')
 
-fun setStatus(dependencies) = if((dependencies..status map ((item, index) -> upper(item) contains  "DOWN" )) contains true) "DEGRADED" else "UP"
+fun setStatus(dependencies) = if( ((dependencies..status map ((item, index) -> upper(item) contains  down)) contains true ) or ( (dependencies..status map ((item, index) -> upper(item) contains  degraded)) contains true ) ) 
+    degraded
+else up
 ---
 {
-  status: setStatus(vars.dependencies) default "DOWN",
-  apiName: Mule::p('app.name'),
-  apiVersion: Mule::p('app.version'),
-  timestamp: now() >> "UTC",
+  status: if(isEmpty(vars.dependencies)) (vars.status default "UP") else setStatus(vars.dependencies),
   dependencies: vars.dependencies default null
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+} ++ {
+	"_metadata": commons::getMetadata(mule,correlationId,attributes)
+}
+]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
 	<flow name="checkDependencies" doc:id="8e96e7e4-d167-4730-91d6-4213093a3516" >
-		<flow-ref doc:name="dependency: pingDependency" doc:id="e21d4624-f105-4480-b157-9dd117a5acd1" target="dependency" name="pingDependency"/>
-		<ee:transform doc:name="Transform Message" doc:id="6e38e3d8-3d66-4bca-b3e0-414499b7f2c4" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="edf80792-84e7-40d7-9735-9f8a678960c0" >
+			<route >
+				<flow-ref doc:name="pingDependency1" doc:id="e21d4624-f105-4480-b157-9dd117a5acd1" name="pingDependency1" />
+			</route>
+			<route >
+				<flow-ref doc:name="pingDependency2" doc:id="4c21390e-7bd5-4386-bceb-f984931ecf43" name="pingDependency2"/>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="46f4d20d-6048-4037-bb48-6feb2642ccbf" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-[] + vars.dependency]]></ee:set-payload>
+(payload pluck ((value, key, index) -> (key): value.payload )) map ((item, index) -> item[0])]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
-	<flow name="pingDependency" doc:id="93a608d2-4b6e-4116-b531-4fda00702bf3" >
+	<flow name="pingDependency1" doc:id="93a608d2-4b6e-4116-b531-4fda00702bf3" >
 		<logger level="INFO" doc:name="implementation to check dependency connectivity" doc:id="5ccead42-a9b8-4e0c-8a35-9cb536a41e32" message="implementation to check dependency connectivity"/>
-		<ee:transform doc:name="Transform Message" doc:id="82c0412a-a126-41f4-a71a-a1a3801948a5" >
+		<ee:transform doc:name="set http request" doc:id="82c0412a-a126-41f4-a71a-a1a3801948a5" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
 {
-	"path": Mule::p('secure::sapi.ping'),
+	"path": null,
 	"method": "GET",
 	"body": null,
 	"headers": null,
 	"uriParams": null,
 	"queryParams": attributes.queryParams
-	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="replace with http call to /ping of dependency" doc:id="dc9fb8ab-db50-4672-ab39-16f594e1edb4" message="replace with http call to /ping of dependency"/>
+		<ee:transform doc:name="placeholder response for http request" doc:id="53d1a396-a44c-45f3-bb91-566601686018" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+   	"status": "UP",
+	"_metadata": {
+	    "appName": "salesforce-sapi",
+	    "javaVersion": "1.8.0_412",
+	    "environmentId": "52a69d49e4b0e3c7324ae5b6",
+	    "timestamp": "2024-07-11T16:52:41.332Z",
+	    "correlationId": "fc9c7340-3fa5-11ef-b2e4-807b1e011d7f",
+	    "requestPath": "/ping",
+	    "muleVersion": "4.7.0"
+	},
+  	"dependencies": [
+    	{
+	      "name": "Salesforce",
+	      "status": "DOWN"
+	    }
+	  ]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="pingDependency2" doc:id="812be6fc-d256-4adb-b462-98f177e800d8" >
+		<logger level="INFO" doc:name="implementation to check dependency connectivity" doc:id="7780d403-98d1-428f-9b5e-64933d3689c6" message="implementation to check dependency connectivity" />
+		<ee:transform doc:name="set http request" doc:id="fcf7ace5-db51-42bd-993f-5116217a7f98" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"path": null,
+	"method": "GET",
+	"body": null,
+	"headers": null,
+	"uriParams": null,
+	"queryParams": attributes.queryParams	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="replace with http call to /ping of dependency" doc:id="9aab955e-682e-453d-993d-9b7ed1c01ce2" message="replace with http call to /ping of dependency"/>
+		<ee:transform doc:name="placeholder response for http request" doc:id="b3a2d398-b170-4f0d-af03-343e90c4a6a9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+   	"status": "DEGRADED",
+	"_metadata": {
+	    "appName": "data-warehouse-sapi",
+	    "javaVersion": "1.8.0_412",
+	    "environmentId": "52a69d49e4b0e3c7324ae5b6",
+	    "timestamp": "2024-07-11T16:52:41.332Z",
+	    "correlationId": "fc9c7340-3fa5-11ef-b2e4-807b1e011d7f",
+	    "requestPath": "/ping",
+	    "muleVersion": "4.7.0"
+	},
+  	"dependencies": [
+    	{
+	      "name": "data warehouse",
+	      "status": "DOWN"
+	    }
+	  ]
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>

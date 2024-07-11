@@ -1,5 +1,11 @@
 app:
   debug: "false"
+  timeZone: "UTC"
+  format:
+    date: "uuuu-MM-dd"
+    time: "HH:mm:ss.A"
+    dateTime: "${app.format.date}T${app.format.time}"
+
 anypoint:
   platform:
     #update list based on the implementation type
@@ -12,4 +18,28 @@ https:
     port: "8082"
   listener:
     readTimeout: "30000"
-    idleTimeout: "40000"
+    idleTimeout: "30000"
+
+process:
+  ping:
+    up: "UP"
+    down: "DOWN"
+    degraded: "DEGRADED"
+  status: 
+    inProgress: "In Progress"
+    error: "Error"
+    failure: "Failure"
+    complete: "Complete"
+  main: 
+    description: "description of process"
+    
+#===================================   
+#reserved keywords
+#these are reserved propertiesget overridden by the platform when deployed and cannot be modified
+#values here are only placeholders for local builds 
+java:
+  version: "1.8.0_141"
+domain: "runtime artifact name"
+environment:
+  id: "52a69d49e4b0e3c7324ae5b6"
+#===================================   

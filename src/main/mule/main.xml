@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<flow name="mainFlow" doc:id="1c04f8be-1ecb-4a07-9f25-37cea7b14222" >
 		<ee:transform doc:name="setProcessData" doc:id="a1886deb-8d39-4248-8a88-5b71b430c92e" >
 			<ee:message >
@@ -15,7 +16,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<flow-ref doc:name="initialize-process-dataFlow" doc:id="71cdd1e1-c10c-42a1-895e-bacf0be00a07" name="initialize-process-dataFlow"/>
 		<ee:transform doc:name="updateRunData" doc:id="db8ea281-73e3-40fc-bc9f-56da25536c66" >
 			<ee:message >
-				<ee:set-payload resource="dataweave/updateSampleRunData.dwl" />
+				<ee:set-payload resource="dataweave/updateSampleRunDataComplete.dwl" />
 			</ee:message>
 		</ee:transform>
 	</flow>

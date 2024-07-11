@@ -4,10 +4,11 @@
 //description: maps the runtime data to an object in Salesforce intended to track the status of an integration, or log errors for triage, maintenance, support and reporting purposes
 //usage: by the runData mapping to build the data used by a specific execution of the process
 %dw 2.0
+import dataweave::commons
 output application/java
 //leave as application/java as changing the data type can cause issues when loading DateTime values into a system
 
-var endTime = now() >> "UTC"
+var endTime = commons::getNow()
 var runData = vars.runData update {
 	case .endTime -> endTime
 	case .processingTime -> (endTime - runData.startTime) as Number { "unit": "milliseconds"}

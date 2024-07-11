@@ -9,7 +9,7 @@ output application/java
 var event = vars.sourceEvent
 
 //This function can be used to determine the event and enhance the object accordingly
-var setObject = if (true) {
+var setObject = if (false) {
 		//any additional fields that may require routing
 	} 
 	else {
@@ -25,7 +25,7 @@ var processData = vars.processData default {}
 	"endTime": null,//set as last step of a process
 	"processingTime": null, //set as last step of process (endTime - startTime) as Number { "unit": "milliseconds"}
 	"message": null,
-	"status": "In Progress", //update this field throughout the process to maintain state of an integration
+	"status": Mule::p('process.status.inProgress'), //update this field throughout the process to maintain state of an integration
 	"isDebug" : vars.debug default false, //can be used as a flag during development, or troubleshooting to modify the behaviour of the application that makes debugging easier
 	"description": null, //update this field throughout processing with additional information or error.message when once occurs 
 	"processDescription": processData.processDescription,
