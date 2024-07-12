@@ -4,12 +4,11 @@
 //description: common dataweave functions
 
 
-
 //formats datetime values
 //https://docs.mulesoft.com/dataweave/latest/dataweave-cookbook-format-dates
-fun formatDate(value) = value as String {format: "uuuu-MM-dd"}
-fun formatTime(value) = value as String {format: "HH:mm:ss.A"}
-fun formatDateTime(value) = formatDate(value) ++ "T" ++ formatTime(value)
+fun formatDate(value) = value as String {format: Mule::p('app.format.date')}
+fun formatTime(value) = value as String {format: Mule::p('app.format.time')}
+fun formatDateTime(value) = value as String {format: Mule::p('app.format.dateTime')}
 fun getNow() = now() >> (Mule::p('app.timeZone') default "UTC")
 fun getNowFormatted() = formatDateTime(getNow())
 

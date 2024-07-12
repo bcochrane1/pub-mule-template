@@ -1,11 +1,26 @@
 tls:
-  truststore:
-    fileName: "nonprod-truststore.ts"
-    password: "![Xv1U+ItRpGmtee75UPjTYMl+TcPdBTULxrDvNOL3QII=]"
-    type: "JKS"
-  keystore:
-    type: "JKS"
-    fileName: "nonprod-keystore.jks"
-    alias: "mule"
-    keyPassword: "![Xv1U+ItRpGmtee75UPjTYMl+TcPdBTULxrDvNOL3QII=]"
-    password: "![Xv1U+ItRpGmtee75UPjTYMl+TcPdBTULxrDvNOL3QII=]"
+  server: 
+    keystore:
+      type: "PKCS12"
+      fileName: "keyStores/server.p12"
+      alias: "server"
+      keyPassword: "456"
+      password: "123"
+  
+
+sapi:
+  salesforce:
+    host: "localhost"
+    port: "8082"
+    maxConnections: "-1"
+    timeout: "30000"
+    client_id: ""
+    client_secret: ""
+    reconnect:
+      frequency: "3000"
+      attempts: "2"
+    path:
+      base: "/api"
+      integrationStatus: "/integrations/status"
+      ping: "/ping"
+      composite: "/composite"

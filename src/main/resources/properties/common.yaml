@@ -4,7 +4,7 @@ app:
   format:
     date: "uuuu-MM-dd"
     time: "HH:mm:ss.A"
-    dateTime: "${app.format.date}T${app.format.time}"
+    dateTime: "${app.format.date}'T'${app.format.time}"
 
 anypoint:
   platform:
@@ -35,7 +35,7 @@ process:
     
 #===================================   
 #reserved keywords
-#these are reserved propertiesget overridden by the platform when deployed and cannot be modified
+#these are reserved properties and get overridden by the platform when deployed and cannot be modified
 #values here are only placeholders for local builds 
 java:
   version: "1.8.0_141"
