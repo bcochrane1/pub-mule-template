@@ -11,7 +11,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 			</ee:message>
 			<ee:variables >
 				<ee:set-variable resource="dataweave/exampleProcess/setExampleProcessData.dwl" variableName="ProcessData" />
-				<ee:set-variable resource="dataweave/setExampleProcessData.dwl" variableName="ProcessData" />
 			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="runData: initialize-process-dataFlow" doc:id="cb32e025-aa41-4f28-aac7-1ac62b2f2772" name="initialize-process-dataFlow" target="runData"/>
@@ -19,11 +18,9 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<ee:transform doc:name="runData: updateRunData" doc:id="2a704bfa-ccb5-44bb-8fbe-05cce0e39517" >
 			<ee:message >
 				<ee:set-payload resource="dataweave/exampleProcess/updateSampleRunDataComplete.dwl" />
-				<ee:set-payload resource="dataweave/updateSampleRunDataComplete.dwl" />
 			</ee:message>
 			<ee:variables >
 				<ee:set-variable resource="dataweave/exampleProcess/updateSampleRunDataComplete.dwl" variableName="runData" />
-				<ee:set-variable resource="dataweave/updateSampleRunDataComplete.dwl" variableName="runData" />
 			</ee:variables>
 		</ee:transform>
 		<logger level="INFO" doc:name="Log vars.runData" doc:id="5b48a85d-8366-4f88-845c-95c06b267dfb" message="#[vars.runData]"/>
