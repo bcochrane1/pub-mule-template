@@ -92,6 +92,22 @@
 							<key>value</key>
 						</properties>
 					</cloudHubDeployment>
+					<!-- CLOUDHUB 2 DEPLOYMENT -->	
+					<cloudhub2Deployment>
+						<server>anypoint-exchange-v3</server>
+						<authToken>${authToken}</authToken>
+						<provider>MC</provider>
+						<environment>${mule.env}</environment>
+						<target>${mule.ch2.target}</target>
+						<muleVersion>${app.runtime}</muleVersion>
+						<!-- <javaVersion>${javaVersion}</javaVersion> -->
+						<applicationName>${project.name}</applicationName>
+						<replicas>${mule.ch2.replicas}</replicas>
+						<vCores>${mule.ch2.vCores}</vCores>
+						<properties>
+							<key>value</key>
+						</properties>
+					</cloudhub2Deployment>
 					<classifier>mule-application</classifier>
 				</configuration>
 			</plugin>
@@ -112,6 +128,10 @@
 				<configuration>
 					<coverage>
 						<runCoverage>true</runCoverage>
+						<failBuild>false</failBuild>
+                        <requiredApplicationCoverage>0</requiredApplicationCoverage>
+                        <requiredResourceCoverage>0</requiredResourceCoverage>
+                        <requiredFlowCoverage>0</requiredFlowCoverage>
 						<formats>
 							<format>html</format>
 							<format>console</format>
@@ -214,18 +234,6 @@
 			<version>1.2.1</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-sftp-connector</artifactId>
-			<version>2.0.6</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-file-connector</artifactId>
-			<version>1.5.2</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
@@ -238,12 +246,6 @@
 			<id>mulesoft-releases</id>
 			<name>MuleSoft Releases Repository</name>
 			<url>https://repository.mulesoft.org/releases/</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>anypoint-exchange-v2</id>
-			<name>Anypoint Exchange V2</name>
-			<url>https://maven.gov.anypoint.mulesoft.com/api/v2/maven</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>

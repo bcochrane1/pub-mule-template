@@ -1,15 +1,15 @@
 tls:
   server: 
     keystore:
-      type: "PKCS12"
-      fileName: "keyStores/server.p12"
-      alias: "server"
-      keyPassword: "456"
-      password: "123"
+      type: "JKS"
+      fileName: "keyStores/nonprod-keystore.jks"
+      alias: "mule"
+      keyPassword: "![81i+q1l/rbHe6Lo9lmXe7XjGl1Si0MT7sdb82wpOCeg=]"
+      password: "![81i+q1l/rbHe6Lo9lmXe7XjGl1Si0MT7sdb82wpOCeg=]"
   
 
-sapi:
-  salesforce:
+http:
+  system1:
     host: "localhost"
     port: "8082"
     maxConnections: "-1"

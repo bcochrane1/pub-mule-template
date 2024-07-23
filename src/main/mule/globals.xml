@@ -15,19 +15,19 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="7031826e-aafc-4920-b5c7-bac46c12714e" file="properties/${mule.env}.yaml" key="${secure.key}" />
 	<configuration-properties doc:name="Configuration properties" doc:id="c85a2e47-342e-487c-a503-ddf9230ff33a" file="properties/common.yaml" />
 	<tls:context name="1-Way-TLS_Context" doc:name="TLS Context" doc:id="99cbfd16-ca22-404e-b132-5e35b305cad3" >
-		<tls:key-store type="${secure::tls.server.keystore.type}" path="security${secure::tls.server.keystore.fileName}" alias="${secure::tls.server.keystore.alias}" keyPassword="${secure::tls.server.keystore.keyPassword}" password="${secure::tls.server.keystore.password}" />
+		<tls:key-store type="${secure::tls.server.keystore.type}" path="security/${secure::tls.server.keystore.fileName}" alias="${secure::tls.server.keystore.alias}" keyPassword="${secure::tls.server.keystore.keyPassword}" password="${secure::tls.server.keystore.password}" />
 	</tls:context>
 	
 	<global-property doc:name="Global Property" doc:id="5e538b69-0a22-4128-858f-b772e196ee9f" name="secure.key" value="replaceWithRuntimeProperty" />
-	<http:request-config name="Salesforce_SAPI_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="b3e39a1f-5999-4601-9cd9-97acfb8543c8" basePath="${secure::sapi.salesforce.path.base}">
-		<http:request-connection protocol="HTTPS" host="${secure::sapi.salesforce.host}" maxConnections="${secure::sapi.salesforce.maxConnections}" connectionIdleTimeout="${secure::sapi.salesforce.timeout}" >
+	<http:request-config name="generic_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="b3e39a1f-5999-4601-9cd9-97acfb8543c8" basePath="${secure::http.system1.path.base}">
+		<http:request-connection protocol="HTTPS" host="${secure::http.system1.host}" maxConnections="${secure::http.system1.maxConnections}" connectionIdleTimeout="${secure::http.system1.timeout}" >
 			<reconnection >
-				<reconnect frequency="${secure::sapi.salesforce.reconnect.frequency}" count="${secure::sapi.salesforce.reconnect.attempts}" />
+				<reconnect frequency="${secure::http.system1.reconnect.frequency}" count="${secure::http.system1.reconnect.attempts}" />
 			</reconnection>
 		</http:request-connection>
 		<http:default-headers >
-			<http:default-header key="client_id" value="${secure::sapi.salesforce.client_id}" />
-			<http:default-header key="client_secret" value="${secure::sapi.salesforce.client_secret}" />
+			<http:default-header key="client_id" value="${secure::http.system1.client_id}" />
+			<http:default-header key="client_secret" value="${secure::http.system1.client_secret}" />
 		</http:default-headers>
 	</http:request-config>
 	

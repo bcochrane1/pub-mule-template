@@ -5,19 +5,28 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<flow name="mainFlow" doc:id="1c04f8be-1ecb-4a07-9f25-37cea7b14222" >
-		<ee:transform doc:name="setProcessData" doc:id="a1886deb-8d39-4248-8a88-5b71b430c92e" >
+<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="134d5104-f70a-4395-83aa-f3d67794b3d5" >
+		<http:listener-connection host="0.0.0.0" port="8081" protocol="HTTPS" tlsContext="1-Way-TLS_Context"/>
+	</http:listener-config>
+	<flow name="exampleProcessMainFlow" doc:id="f9aeb882-f6ce-4eaf-838c-e8724a489fe4" >
+		<http:listener doc:name="Listener" doc:id="5d09253a-4352-4d07-9bad-205112e929fe" config-ref="HTTP_Listener_config" path="/test"/>
+		<ee:transform doc:name="setProcessData" doc:id="24f87c30-4785-4e34-9bde-b84c41bfff6a" >
 			<ee:message >
 			</ee:message>
 			<ee:variables >
-				<ee:set-variable resource="dataweave/setExampleProcessData.dwl" variableName="ProcessData" />
+				<ee:set-variable resource="dataweave/exampleProcess/setExampleProcessData.dwl" variableName="ProcessData" />
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="initialize-process-dataFlow" doc:id="71cdd1e1-c10c-42a1-895e-bacf0be00a07" name="initialize-process-dataFlow"/>
-		<ee:transform doc:name="updateRunData" doc:id="db8ea281-73e3-40fc-bc9f-56da25536c66" >
+		<flow-ref doc:name="runData: initialize-process-dataFlow" doc:id="cb32e025-aa41-4f28-aac7-1ac62b2f2772" name="initialize-process-dataFlow" target="runData"/>
+		<logger level="INFO" doc:name="implementation logic " doc:id="dc6cea18-8149-489e-bbcd-f9fb7b4961cc" message="implementation logic "/>
+		<ee:transform doc:name="runData: updateRunData" doc:id="2a704bfa-ccb5-44bb-8fbe-05cce0e39517" >
 			<ee:message >
-				<ee:set-payload resource="dataweave/updateSampleRunDataComplete.dwl" />
+				<ee:set-payload resource="dataweave/exampleProcess/updateSampleRunDataComplete.dwl" />
 			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dataweave/exampleProcess/updateSampleRunDataComplete.dwl" variableName="runData" />
+			</ee:variables>
 		</ee:transform>
+		<logger level="INFO" doc:name="Log vars.runData" doc:id="5b48a85d-8366-4f88-845c-95c06b267dfb" message="#[vars.runData]"/>
 	</flow>
 </mule>

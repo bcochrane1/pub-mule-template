@@ -1,6 +1,8 @@
 app:
   debug: "false"
   timeZone: "UTC"
+  timeUnit: "milliseconds"
+  platform: "MuleSoft"
   format:
     date: "uuuu-MM-dd"
     time: "HH:mm:ss.A"
@@ -21,21 +23,29 @@ https:
     idleTimeout: "30000"
 
 process:
-  ping:
-    up: "UP"
-    down: "DOWN"
-    degraded: "DEGRADED"
+  defaultMessage: "N/A"
   status: 
     inProgress: "In Progress"
     error: "Error"
     failure: "Failure"
     complete: "Complete"
-  main: 
+  ping:
+    up: "UP"
+    down: "DOWN"
+    degraded: "DEGRADED"
+    name: "ping"
+    description: "ping"
+    type: "REST"
+  example: 
     description: "description of process"
+    name: "main"
+    type: "REST"
+    dataSource: "Anypoint MQ"
+    dataTarget: "Salesforce"
     
 #===================================   
 #reserved keywords
-#these are reserved properties and get overridden by the platform when deployed and cannot be modified
+#these are reserved properties and get overridden by the platform when deployed and cannot be modified in deployment environment
 #values here are only placeholders for local builds 
 java:
   version: "1.8.0_141"

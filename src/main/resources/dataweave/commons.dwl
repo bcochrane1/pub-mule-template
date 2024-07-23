@@ -1,5 +1,5 @@
 //creator: Brandon Cochrane, Technical Architect, Salesforce
-//date: 2024-07-11
+//date: 2024-07-23
 //file: dataweave/commons.dwl
 //description: common dataweave functions
 
@@ -11,6 +11,8 @@ fun formatTime(value) = value as String {format: Mule::p('app.format.time')}
 fun formatDateTime(value) = value as String {format: Mule::p('app.format.dateTime')}
 fun getNow() = now() >> (Mule::p('app.timeZone') default "UTC")
 fun getNowFormatted() = formatDateTime(getNow())
+fun getDateDiff(endTime, startTime) = getDateDiff(endTime,startTime,Mule::p('app.timeUnit') default "milliseconds")
+fun getDateDiff(endTime, startTime, unit) = (endTime - startTime) as Number { "unit": unit}
 
 //defines _metadata values
 fun getMetadata() = {
